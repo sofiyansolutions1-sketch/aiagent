@@ -1,0 +1,10 @@
+{
+  "name": "Sofian Home Service Call Assistant",
+  "description": "An AI Tele-Calling agent dashboard with Live API voice integration that generates leads and logs them to Supabase.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
