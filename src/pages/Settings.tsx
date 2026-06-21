@@ -8,6 +8,7 @@ export function Settings() {
   const [voice, setVoice] = useState("Aoede");
   const [activeWebhook, setActiveWebhook] = useState("");
   const [endingWebhook, setEndingWebhook] = useState("");
+  const [backendUrl, setBackendUrl] = useState("");
   
   const [savedActiveWebhook, setSavedActiveWebhook] = useState("");
   const [savedEndingWebhook, setSavedEndingWebhook] = useState("");
@@ -15,9 +16,10 @@ export function Settings() {
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
-    setUrl(localStorage.getItem("supabase_url") || "");
-    setKey(localStorage.getItem("supabase_anon_key") || "");
+    setUrl(localStorage.getItem("supabase_url") || "https://vqbnzcknflwuhbiznuim.supabase.co");
+    setKey(localStorage.getItem("supabase_anon_key") || "sb_publishable_YKSbWVBxAltMjpIxGhNAIg_Ga8B9xST");
     setVoice(localStorage.getItem("ai_voice") || "Aoede");
+    setBackendUrl(localStorage.getItem("backend_ws_url") || "");
     
     const storedActive = localStorage.getItem("call_active_webhook") || "";
     const storedEnding = localStorage.getItem("call_ending_webhook") || "";
@@ -31,6 +33,7 @@ export function Settings() {
     localStorage.setItem("supabase_url", url);
     localStorage.setItem("supabase_anon_key", key);
     localStorage.setItem("ai_voice", voice);
+    localStorage.setItem("backend_ws_url", backendUrl);
     localStorage.setItem("call_active_webhook", activeWebhook);
     localStorage.setItem("call_ending_webhook", endingWebhook);
     
@@ -137,6 +140,25 @@ export function Settings() {
                     className="w-full border border-slate-300 rounded-md px-3 py-2 outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all text-slate-900 placeholder:text-slate-400"
                   />
               )}
+           </div>
+        </div>
+      </div>
+
+      <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mb-6">
+        <div className="px-6 py-4 border-b border-slate-200">
+           <h3 className="font-semibold text-slate-800">Backend Server Configuration</h3>
+           <p className="text-slate-500 text-xs mt-1">If hosted on Netlify, specify the external backend URL (e.g. Render/Railway) for WebSockets.</p>
+        </div>
+        <div className="p-6">
+           <div>
+              <label className="block font-medium text-slate-700 mb-1.5">Backend URL (Optional)</label>
+              <input 
+                type="text" 
+                value={backendUrl} 
+                onChange={e => setBackendUrl(e.target.value)}
+                placeholder="https://my-backend.onrender.com"
+                className="w-full border border-slate-300 rounded-md px-3 py-2 outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all text-slate-900 placeholder:text-slate-400"
+              />
            </div>
         </div>
       </div>

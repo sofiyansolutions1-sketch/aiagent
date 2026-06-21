@@ -5,8 +5,8 @@ let supabaseClient: SupabaseClient | null = null;
 export function getSupabase(): SupabaseClient | null {
   if (supabaseClient) return supabaseClient;
   
-  const url = localStorage.getItem('supabase_url');
-  const key = localStorage.getItem('supabase_anon_key');
+  const url = localStorage.getItem('supabase_url') || 'https://vqbnzcknflwuhbiznuim.supabase.co';
+  const key = localStorage.getItem('supabase_anon_key') || 'sb_publishable_YKSbWVBxAltMjpIxGhNAIg_Ga8B9xST';
   
   if (url && key) {
     try {

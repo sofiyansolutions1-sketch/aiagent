@@ -36,8 +36,22 @@ export function AiCall() {
 
       // Configure WebSocket
       const voice = localStorage.getItem("ai_voice") || "Aoede";
-      const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-      const wsUrl = `${protocol}//${window.location.host}/live?voice=${voice}`;
+      const backendUrl = localStorage.getItem("backend_ws_url");
+      let wsUrl = '';
+      if (backendUrl) {
+          try {
+              const url = new URL(backendUrl);
+              const wsProtocol = url.protocol === 'https:' ? 'wss:' : 'ws:';
+              wsUrl = `${wsProtocol}//${url.host}/live?voice=${voice}`;
+          } catch(e) {
+              addLog('error', 'Invalid backend URL in settings. Using local.');
+              const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+              wsUrl = `${protocol}//${window.location.host}/live?voice=${voice}`;
+          }
+      } else {
+          const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+          wsUrl = `${protocol}//${window.location.host}/live?voice=${voice}`;
+      }
       const ws = new WebSocket(wsUrl);
       wsRef.current = ws;
 
@@ -175,7 +189,7 @@ export function AiCall() {
                   response: { result: "Hung up." }
               });
               // End call gracefully
-              setTimeout(endCall, 1000);
+              setTimeout(endCall, 4000);
           }
       }
 
