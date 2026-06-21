@@ -78,8 +78,14 @@ export function AiCall() {
         }
       };
       
-      ws.onerror = () => {
-        addLog('error', 'WebSocket connection error.');
+      ws.onerror = (event) => {
+        console.error("WebSocket Error:", event);
+        const isStatic = window.location.hostname.includes('netlify.app') || window.location.hostname.includes('vercel.app');
+        if (isStatic && !localStorage.getItem("backend_ws_url")) {
+            addLog('error', 'WebSocket connection error. You are hosted on Netlify (a frontend-only static host) but have not configured a Backend URL. Please deploy your backend (server.ts) to a service like Render and add its URL in Settings.');
+        } else {
+            addLog('error', 'WebSocket connection error. Ensure your backend server is running and accessible.');
+        }
       };
 
       ws.onmessage = async (event) => {
